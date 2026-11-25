@@ -1,0 +1,4 @@
+# Copy this file to database.properties and replace the placeholders.
+DB_URL=jdbc:mysql://YOUR_TIDB_HOST:4000/test?sslMode=VERIFY_IDENTITY&connectionTimeZone=UTC
+DB_USER=YOUR_CLUSTER_PREFIX.root
+DB_PASSWORD=YOUR_TIDB_PASSWORD

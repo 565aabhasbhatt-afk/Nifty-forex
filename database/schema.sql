@@ -1,0 +1,10 @@
+-- Run this script against the database selected in the TiDB Cloud Connect dialog.
+-- Do not assume CREATE DATABASE permission or a database named forex_db.
+CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, email VARCHAR(160) NOT NULL UNIQUE, password_hash CHAR(64) NOT NULL, role VARCHAR(20) NOT NULL DEFAULT 'USER', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS wallets (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, currency CHAR(3) NOT NULL, balance DECIMAL(18,2) NOT NULL DEFAULT 0, UNIQUE KEY uq_wallet(user_id,currency), FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS exchange_rates (currency CHAR(3) PRIMARY KEY, usd_rate DECIMAL(18,8) NOT NULL);
+CREATE TABLE IF NOT EXISTS transactions (id BIGINT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, type VARCHAR(30) NOT NULL, from_currency CHAR(3), to_currency CHAR(3), amount DECIMAL(18,4), result_amount DECIMAL(18,4), note VARCHAR(255), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS watchlist (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, currency CHAR(3) NOT NULL, UNIQUE KEY uq_watch(user_id,currency), FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS price_alerts (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, currency CHAR(3) NOT NULL, target_rate DECIMAL(18,8) NOT NULL, direction VARCHAR(10) NOT NULL, active BOOLEAN NOT NULL DEFAULT TRUE, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE IF NOT EXISTS portfolio (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, currency CHAR(3) NOT NULL, quantity DECIMAL(18,4) NOT NULL DEFAULT 0, UNIQUE KEY uq_portfolio(user_id,currency), FOREIGN KEY(user_id) REFERENCES users(id));
+INSERT IGNORE INTO exchange_rates(currency,usd_rate) VALUES ('USD',1.00000000),('EUR',0.92000000),('GBP',0.79000000),('INR',83.00000000),('JPY',150.00000000),('CAD',1.35000000),('AUD',1.52000000),('CHF',0.88000000);

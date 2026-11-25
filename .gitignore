@@ -1,0 +1,16 @@
+# Compiled output
+out/
+*.class
+sources.txt
+
+# Credentials
+config/database.properties
+.env
+*.env
+
+# Local tooling
+.vscode/
+.idea/
+
+# Connector binaries are downloaded separately
+lib/*.jar
