@@ -1,3 +1,7 @@
+
+
+JAI HIND
+
 # NiftyForex — Console-Based Forex Wallet & Trading Simulator
 
 A plain Java console application using JDBC and a TiDB Cloud (MySQL-compatible) database. The project remains non-Maven/non-Gradle and has no graphical interface. Exchange rates are sample/static values and transactions are simulated for academic use.
